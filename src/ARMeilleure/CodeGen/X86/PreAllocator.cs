@@ -120,17 +120,11 @@ namespace ARMeilleure.CodeGen.X86
                             break;
 
                         case Instruction.Extended:
-                            if (node.Intrinsic == Intrinsic.X86Ldmxcsr)
+                            if (node.Intrinsic == Intrinsic.X86Mxcsrmb || node.Intrinsic == Intrinsic.X86Mxcsrub)
                             {
                                 int stackOffset = stackAlloc.Allocate(OperandType.I32);
 
                                 node.SetSources(new Operand[] { Const(stackOffset), node.GetSource(0) });
-                            }
-                            else if (node.Intrinsic == Intrinsic.X86Stmxcsr)
-                            {
-                                int stackOffset = stackAlloc.Allocate(OperandType.I32);
-
-                                node.SetSources(new Operand[] { Const(stackOffset) });
                             }
                             break;
                     }

@@ -1223,11 +1223,9 @@ namespace ARMeilleure.Instructions
             Array.Resize(ref callArgs, callArgs.Length + 1);
             callArgs[^1] = Const(1);
 
-            context.ExitArmFpMode();
             context.StoreToContext();
             Operand res = context.Call(info, callArgs);
             context.LoadFromContext();
-            context.EnterArmFpMode();
 
             return res;
         }

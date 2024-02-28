@@ -413,11 +413,9 @@ namespace ARMeilleure.Instructions
                         ? typeof(SoftFloat64_16).GetMethod(nameof(SoftFloat64_16.FPConvert))
                         : typeof(SoftFloat32_16).GetMethod(nameof(SoftFloat32_16.FPConvert));
 
-                    context.ExitArmFpMode();
                     context.StoreToContext();
                     Operand res = context.Call(method, src);
                     context.LoadFromContext();
-                    context.EnterArmFpMode();
 
                     InsertScalar16(context, op.Vd, op.T, res);
                 }
@@ -431,11 +429,9 @@ namespace ARMeilleure.Instructions
                         ? typeof(SoftFloat16_64).GetMethod(nameof(SoftFloat16_64.FPConvert))
                         : typeof(SoftFloat16_32).GetMethod(nameof(SoftFloat16_32.FPConvert));
 
-                    context.ExitArmFpMode();
                     context.StoreToContext();
                     Operand res = context.Call(method, src);
                     context.LoadFromContext();
-                    context.EnterArmFpMode();
 
                     InsertScalar(context, op.Vd, res);
                 }
@@ -620,17 +616,10 @@ namespace ARMeilleure.Instructions
         // VRINTX (floating-point).
         public static void Vrintx_S(ArmEmitterContext context)
         {
-            if (Optimizations.UseAdvSimd)
+            EmitScalarUnaryOpF32(context, (op1) =>
             {
-                InstEmitSimdHelper32Arm64.EmitScalarUnaryOpF32(context, Intrinsic.Arm64FrintxS);
-            }
-            else
-            {
-                EmitScalarUnaryOpF32(context, (op1) =>
-                {
-                    return EmitRoundByRMode(context, op1);
-                });
-            }
+                return EmitRoundByRMode(context, op1);
+            });
         }
 
         private static Operand EmitFPConvert(ArmEmitterContext context, Operand value, OperandType type, bool signed)

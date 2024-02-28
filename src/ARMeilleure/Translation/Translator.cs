@@ -189,7 +189,7 @@ namespace ARMeilleure.Translation
 
             Statistics.StartTimer();
 
-            ulong nextAddr = func.Execute(Stubs.ContextWrapper, context);
+            ulong nextAddr = func.Execute(context);
 
             Statistics.StopTimer(address);
 
@@ -200,7 +200,7 @@ namespace ARMeilleure.Translation
         {
             TranslatedFunction func = Translate(address, context.ExecutionMode, highCq: false, singleStep: true);
 
-            address = func.Execute(Stubs.ContextWrapper, context);
+            address = func.Execute(context);
 
             EnqueueForDeletion(address, func);
 

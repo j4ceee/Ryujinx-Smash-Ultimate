@@ -25,10 +25,5 @@ namespace ARMeilleure.Translation
         {
             return _func(context.NativeContextPtr);
         }
-
-        public ulong Execute(WrapperFunction dispatcher, State.ExecutionContext context)
-        {
-            return dispatcher(context.NativeContextPtr, (ulong)FuncPointer);
-        }
     }
 }

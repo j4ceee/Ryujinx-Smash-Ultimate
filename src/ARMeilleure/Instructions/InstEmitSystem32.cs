@@ -302,8 +302,6 @@ namespace ARMeilleure.Instructions
                     SetFpFlag(context, (FPState)flag, context.BitwiseAnd(context.ShiftRightUI(fpscr, Const(flag)), Const(1)));
                 }
             }
-
-            context.UpdateArmFpMode();
         }
 
         private static Operand EmitGetTpidrEl0(ArmEmitterContext context)
